@@ -1,0 +1,47 @@
+## YAML Template.
+---
+Configuration:
+
+  appenders:
+
+    Console:
+      - name: CONSOLE
+        target: SYSTEM_OUT
+        PatternLayout:
+          Pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS zzz} %-5p [%t] %c{1} - %m%n"
+#         https://logging.apache.org/log4j/2.x/manual/layouts.html#PatternLayout
+
+    RollingFile:
+      - name: FILE
+        append: true
+        fileName: alphaess-client.log
+        filePattern: "alphaess-client%i.log"
+        PatternLayout:
+          Pattern: "%d{yyyy-MM-dd HH:mm:ss.SSS zzz} %-5p [%t] %c{1} - %m%n"
+        Policies:
+          - SizeBasedTriggeringPolicy:
+              size: "10 MB"
+
+    Async:
+      - name: ASYNC_CONSOLE
+        AppenderRef: 
+          - ref: CONSOLE
+      - name: ASYNC_FILE
+        AppenderRef: 
+          - ref: FILE
+ 
+  Loggers:
+    logger:
+          
+      - name: au.org.ncallister.alphaess4j
+        level: DEBUG
+        additivity: false
+        AppenderRef:
+          - ref: ASYNC_CONSOLE
+          - ref: ASYNC_FILE
+          
+    Root:
+      level: INFO
+      AppenderRef:
+        - ref: ASYNC_CONSOLE
+        - ref: ASYNC_FILE
