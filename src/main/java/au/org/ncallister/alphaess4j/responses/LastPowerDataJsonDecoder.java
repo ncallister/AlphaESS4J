@@ -10,7 +10,7 @@ import org.json.JSONObject;
 /**
  *
  */
-public class PowerDataJsonDecoder 
+public class LastPowerDataJsonDecoder 
 {
     public static final String KEY_BATTERY_CHARGE = "soc";
     public static final String KEY_PV_POWER = "ppv";
@@ -27,7 +27,15 @@ public class PowerDataJsonDecoder
         sink.setBatteryCharge(source.getDouble(KEY_BATTERY_CHARGE));
         sink.setPvPower(source.getDouble(KEY_PV_POWER));
         sink.setEvPower(source.getDouble(KEY_EV_POWER));
-        sink.setGridPower(source.getDouble(KEY_GRID_POWER));
+        double gridPower = source.getDouble(KEY_GRID_POWER);
+        if (gridPower < 0)
+        {
+            sink.setGridFeedIn(gridPower);
+        }
+        else
+        {
+            sink.setGridDraw(gridPower);
+        }
         sink.setBatteryPower(source.getDouble(KEY_BATTERY_POWER));
         sink.setLoad(source.getDouble(KEY_LOAD));
         

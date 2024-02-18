@@ -4,12 +4,17 @@
 
 package au.org.ncallister.alphaess4j.requests;
 
+import au.org.ncallister.alphaess4j.responses.DayPower;
+import au.org.ncallister.alphaess4j.responses.DayPowerJsonDecoder;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
+import org.json.JSONArray;
+import org.json.JSONException;
 
 /**
  *
@@ -24,7 +29,7 @@ public class GetOneDayPowerBySn extends HttpGet
     private final LocalDate queryDate;
     private final String sysSn;
     
-//    private final PowerDataJsonDecoder decoder = new PowerDataJsonDecoder();
+    private final DayPowerJsonDecoder decoder = new DayPowerJsonDecoder();
     
     public GetOneDayPowerBySn(URI hostUri, LocalDate queryDate, String sysSn) throws URISyntaxException
     {
@@ -50,8 +55,8 @@ public class GetOneDayPowerBySn extends HttpGet
         return builder.build();
     }
     
-//    public PowerData decodeResponseData(JSONObject responseData)
-//    {
-//        return decoder.decode(responseData);
-//    }
+    public DayPower decodeResponseData(JSONArray responseData) throws ParseException, JSONException
+    {
+        return decoder.decode(responseData);
+    }
 }

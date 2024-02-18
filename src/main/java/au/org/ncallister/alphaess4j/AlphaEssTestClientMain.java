@@ -4,6 +4,7 @@
 
 package au.org.ncallister.alphaess4j;
 
+import au.org.ncallister.alphaess4j.responses.DayPower;
 import au.org.ncallister.alphaess4j.responses.EssSystem;
 import au.org.ncallister.alphaess4j.responses.PowerData;
 import java.io.FileReader;
@@ -42,7 +43,9 @@ public class AlphaEssTestClientMain
             LOG.info("Power sum: {}", powerData.getPvPower() + powerData.getBatteryPower() - powerData.getLoad());
             
             client.getOneDateEnergyBySn(LocalDate.now(), system.getSystemSerial());
-            client.getOneDayPowerBySn(LocalDate.now(), system.getSystemSerial());
+            DayPower dayPower = client.getOneDayPowerBySn(LocalDate.now(), system.getSystemSerial());
+            
+            LOG.info(dayPower.toString());
         }
     }
 }

@@ -7,6 +7,7 @@ package au.org.ncallister.alphaess4j.responses;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -16,6 +17,12 @@ public class DayPower
     private String serialNo;
     private LocalDate date;
     private List<PowerData> data = new ArrayList<>();
+
+    @Override
+    public String toString()
+    {
+        return "DayPower{" + "serialNo=" + serialNo + ", date=" + date + ", data=" + data + '}';
+    }
 
     /**
      * @return the date
@@ -32,13 +39,23 @@ public class DayPower
     {
         this.date = date;
     }
+    
+    public int dataPointCount()
+    {
+        return data.size();
+    }
+    
+    public PowerData getDataPoint(int index)
+    {
+        return new PowerData(data.get(index));
+    }
 
     /**
      * @return the data
      */
     public List<PowerData> getData()
     {
-        return new ArrayList<>(data);
+        return data.stream().map(i -> new PowerData(i)).collect(Collectors.toList());
     }
 
     /**

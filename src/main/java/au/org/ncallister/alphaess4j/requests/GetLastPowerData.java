@@ -5,7 +5,7 @@
 package au.org.ncallister.alphaess4j.requests;
 
 import au.org.ncallister.alphaess4j.responses.PowerData;
-import au.org.ncallister.alphaess4j.responses.PowerDataJsonDecoder;
+import au.org.ncallister.alphaess4j.responses.LastPowerDataJsonDecoder;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.apache.http.client.methods.HttpGet;
@@ -23,7 +23,7 @@ public class GetLastPowerData extends HttpGet
     
     private final String sysSn;
     
-    private final PowerDataJsonDecoder decoder = new PowerDataJsonDecoder();
+    private final LastPowerDataJsonDecoder decoder = new LastPowerDataJsonDecoder();
     
     public GetLastPowerData(URI hostUri, String sysSn) throws URISyntaxException
     {

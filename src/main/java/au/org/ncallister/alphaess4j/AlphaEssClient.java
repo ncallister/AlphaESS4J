@@ -9,6 +9,7 @@ import au.org.ncallister.alphaess4j.requests.GetEvChargetStatusBySn;
 import au.org.ncallister.alphaess4j.requests.GetLastPowerData;
 import au.org.ncallister.alphaess4j.requests.GetOneDateEnergyBySn;
 import au.org.ncallister.alphaess4j.requests.GetOneDayPowerBySn;
+import au.org.ncallister.alphaess4j.responses.DayPower;
 import au.org.ncallister.alphaess4j.responses.EssSystem;
 import au.org.ncallister.alphaess4j.responses.PowerData;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
@@ -28,6 +30,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.io.EmptyInputStream;
 import org.apache.http.message.AbstractHttpMessage;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -242,7 +245,8 @@ public class AlphaEssClient
         }
     }
     
-    public void getOneDayPowerBySn(LocalDate date, String sysSn) throws URISyntaxException, NoSuchAlgorithmException, IOException
+    public DayPower getOneDayPowerBySn(LocalDate date, String sysSn) 
+            throws URISyntaxException, NoSuchAlgorithmException, IOException, JSONException, ParseException
     {
         if (client == null)
         {
@@ -265,8 +269,7 @@ public class AlphaEssClient
                 throw new IOException(String.format("%s: %s", request.toString(), responseBody));
             }
             
-            // TODO
-//            return request.decodeResponseData(responseData.getJSONObject(RKEY_DATA));
+            return request.decodeResponseData(responseData.getJSONArray(RKEY_DATA));
         }
     }
 }
